@@ -1,0 +1,17 @@
+{
+  "name": "umen-finansov-analizator",
+  "version": "1.0.0",
+  "description": "Умен финансов анализатор – следи приходи и разходи, прогнозира бюджета за следващия месец и дава съвети.",
+  "main": "server/server.js",
+  "private": true,
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/server.js",
+    "dev": "node --watch --disable-warning=ExperimentalWarning server/server.js",
+    "seed": "node --disable-warning=ExperimentalWarning server/seed.js --reset",
+    "test": "node --disable-warning=ExperimentalWarning --test"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "license": "MIT"
+}

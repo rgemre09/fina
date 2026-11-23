@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <title>Fina · Умен финансов анализатор</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2310b981'/><stop offset='.55' stop-color='%230ea5e9'/><stop offset='1' stop-color='%236366f1'/></linearGradient></defs><rect width='32' height='32' rx='9' fill='url(%23g)'/><path d='M9 22l5-6 4 3 5-8' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+  <!-- Шрифт Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Темата се задава още преди страницата да се покаже, за да няма "примигване". -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+
+  <!-- Графики: Chart.js;  QR код: jsQR;  (OCR Tesseract.js се зарежда при нужда) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" defer></script>
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body>
+
+  <!-- ======================= ВХОД / РЕГИСТРАЦИЯ ======================= -->
+  <section id="auth-screen" class="auth" hidden>
+    <div class="auth-hero">
+      <div class="brand" style="padding:0">
+        <div class="logo" id="auth-logo"></div>
+        <div>Fina<small style="color:rgba(255,255,255,.7)">Умен финансов анализатор</small></div>
+      </div>
+
+      <div>
+        <h1>Парите ти, разбрани.<br>Бюджетът ти, предвиден.</h1>
+        <p>Следи приходите и разходите, сканирай касови бележки и получавай прогноза за следващия месец, изчислена от твоите навици.</p>
+      </div>
+
+      <ul class="features" id="auth-features"></ul>
+
+      <div class="mock-card" aria-hidden="true">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="chip"></div><span style="opacity:.8;font-size:.8rem">Прогноза · декември</span>
+        </div>
+        <div>
+          <div style="opacity:.75;font-size:.8rem">Очакван остатък</div>
+          <div class="big">+ 393,63 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-side">
+      <div class="auth-card">
+        <h2 id="auth-title">Добре дошъл отново</h2>
+        <p class="muted" style="margin:6px 0 22px">Влез в профила си, за да продължиш.</p>
+
+        <div class="tabs" role="tablist" style="margin-bottom:18px">
+          <button class="tab active" data-auth-tab="login" role="tab">Вход</button>
+          <button class="tab" data-auth-tab="register" role="tab">Регистрация</button>
+        </div>
+
+        <form id="auth-form" class="form">
+          <label>Потребителско име
+            <input name="username" autocomplete="username" required minlength="3" maxlength="30" placeholder="напр. ivan">
+          </label>
+          <label>Парола
+            <input name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="поне 6 знака">
+          </label>
+          <p id="auth-error" class="error" hidden></p>
+          <button class="btn primary block" type="submit" id="auth-submit">Вход</button>
+        </form>
+        <p class="hint">Демо профил с данни за 12 месеца:<br><b>demo</b> / <b>demo1234</b>
+          <button class="btn small" id="demo-fill" type="button" style="margin-top:8px">Попълни демо данните</button></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ПРИЛОЖЕНИЕ ======================= -->
+  <div id="app" class="app" hidden>
+    <nav class="sidebar" id="sidebar" aria-label="Основно меню"></nav>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="search-trigger" id="open-palette" type="button">
+          <span id="search-ico"></span>
+          <span>Бързо добавяне… <span class="hide-mobile">напр. „кафе 3,50 вчера“</span></span>
+          <kbd>Ctrl</kbd><kbd>K</kbd>
+        </button>
+        <button class="icon-btn" id="theme-toggle" type="button" title="Смени темата" aria-label="Смени темата"></button>
+      </header>
+      <main id="view" class="view" tabindex="-1"></main>
+    </div>
+
+    <button class="fab" id="fab" type="button" aria-label="Бързо добавяне"></button>
+  </div>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+</body>
+</html>
